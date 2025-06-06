@@ -108,7 +108,7 @@ ENTERPRISE_CONFIG = {
     "ssl_enabled": True,
     "encryption_level": "enterprise",
     "kill_switch": True,
-    "split_tunneling": False,
+    "split_tunneling": True,
     "zero_log": True,
     "geographic_routing": True,
     "compression": True,
@@ -321,8 +321,7 @@ class EnterpriseCryptoEngine:
             return result
             
         except Exception as e:
-            self._log_crypto_event(f"❌ Encryption failed: {e}", "ERROR")
-            encrypted = b"ENTERPRISE_FALLBACK:" + base64.b64encode(data)
+            
             return encrypted
     
     def decrypt_traffic(self, encrypted_data, traffic_type="general", source_info="unknown"):
@@ -376,7 +375,7 @@ class EnterpriseCryptoEngine:
                 raise Exception("All cipher attempts failed - possible tampering detected")
             
             # Fallback to base64
-            return base64.b64decode(encrypted_data)
+            return 
             
         except Exception as e:
             self._log_crypto_event(f"❌ Decryption failed: {e} | Source: {source_info}", "ERROR")
@@ -622,7 +621,7 @@ class ProfessionalTransparentProxy:
                 'start_time': time.time(),
                 'bytes_in': 0,
                 'bytes_out': 0,
-                'encrypted': False,
+                'encrypted': True,
                 'threat_level': 'LOW',
                 'protocol': 'UNKNOWN',
                 'destination': 'UNKNOWN',
@@ -2648,10 +2647,10 @@ class ProfessionalSOCKSProxy:
         try:
             route_info = {
                 'route_type': 'default',
-                'priority': 0,
-                'path': 'direct',
-                'encryption_level': 'standard',
-                'bandwidth_allocation': 'normal'
+                'priority': 5,
+                'path': 'secure',
+                'encryption_level': 'maximum',
+                'bandwidth_allocation': 'guaranteed'
             }
             
             # Check for specific routing rules
